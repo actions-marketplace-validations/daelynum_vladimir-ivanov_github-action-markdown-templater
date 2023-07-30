@@ -24,7 +24,8 @@ CHECK_MODIFIED_FILES_ONLY="$3"
 # The base branch against which to compare for modified files
 BASE_BRANCH="$4"
 
-replace_pattern="{{([a-zA-Z0-9_]+)}}"
+replace_pattern="{{\\([a-zA-Z0-9_]+\\)}}"
+
 
 # Display the variables
 echo -e "${BLUE}TEMPLATE_FILE: $1${NC}"
@@ -67,7 +68,7 @@ replace_variables () {
    do
       REPLACEMENT_VARIABLE=$(echo "$line" | grep -oE "$replace_pattern" | sed -E 's/[{}]+//g')
       REPLACEMENT_VALUE=$(echo "$line" | awk -F '{{|}}' '{print $3}')
-      sed -i -e 's/{{$REPLACEMENT_VARIABLE}}/'"$REPLACEMENT_VALUE"'/g' "$1"
+      sed -i -e "s/{{$REPLACEMENT_VARIABLE}}/$REPLACEMENT_VALUE/g" "$1"
    done < "$TEMPLATE_FILE"
 }
 
