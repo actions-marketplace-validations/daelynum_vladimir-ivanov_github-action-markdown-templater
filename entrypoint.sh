@@ -71,8 +71,9 @@ replace_variables () {
       do
          REPLACEMENT_VARIABLE=$(echo "$line" | awk -F= '{print $1}')
          REPLACEMENT_VALUE=$(echo "$line" | awk -F= '{print $2}')
+         echo $line
          sed -i -e 's/{{'"$REPLACEMENT_VARIABLE"'}}/'"$REPLACEMENT_VALUE"'/g' "$FILE_PATH"
-      done < "$FILE_PATH"
+      done < "$REPLACEMENT_DIRECTORY"
    done
 }
 
