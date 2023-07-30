@@ -12,7 +12,7 @@ COPY package*.json ./
 RUN npm install
 
 # Bundle your app
-COPY . .
+COPY docker .
 
 # Install replace-in-file globally
 RUN npm install -g replace-in-file
