@@ -62,10 +62,6 @@ check_modified_files () {
 
 # Function to replace the template variables in a given file
 replace_variables () {
-
-   # Display the file being processed
-   echo "Processing $1"
-
    # Read the replacement variables from the template file
    while IFS= read -r line
    do
