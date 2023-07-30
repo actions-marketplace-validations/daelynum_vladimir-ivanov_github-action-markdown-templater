@@ -1,0 +1,31 @@
+name: 'markdown-templater'
+description: 'Replace template variables in .md files.'
+author: 'Vladimir Ivanov'
+branding:
+  icon: 'code'
+  color: 'green'
+inputs:
+  template-file:
+    description: 'Specify path to your JSON template file.'
+    required: true
+    default: './template.json'
+  replacement-directory:
+    description: 'Specify path to the directory where the replacement values are located.'
+    required: true
+    default: './replacements'
+  check-modified-files-only:
+    description: 'Use yes to only check for modified .sh files instead of checking all sh files.'
+    required: true
+    default: 'no'
+  base-branch:
+    description: 'Use this to specify the base branch against which the action finds the modified files.'
+    required: true
+    default: 'master'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.template-file }}
+    - ${{ inputs.replacement-directory }}
+    - ${{ inputs.check-modified-files-only }}
+    - ${{ inputs.base-branch }}
