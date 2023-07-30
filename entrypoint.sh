@@ -65,13 +65,13 @@ replace_variables () {
    echo "Processing $FILE_PATH"
 
    for FILE_PATH in $(find "$REPLACEMENT_DIRECTORY" -type f); do
-    while IFS= read -r line
-    do
+     while IFS= read -r line
+     do
         REPLACEMENT_VARIABLE=$(echo "$line" | awk -F= '{print $1}')
-        echo $line
         REPLACEMENT_VALUE=$(echo "$line" | awk -F= '{print $2}')
+        echo $line
         sed -i -e 's/{{'"$REPLACEMENT_VARIABLE"'}}/'"$REPLACEMENT_VALUE"'/g' "$FILE_PATH"
-    done < "$FILE_PATH"
+     done < "$REPLACEMENT_DIRECTORY"
 done
 }
 
