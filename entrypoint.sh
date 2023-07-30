@@ -70,6 +70,7 @@ replace_variables () {
       while IFS= read -r line
       do
          REPLACEMENT_VARIABLE=$(echo "$line" | awk -F= '{print $1}')
+         echo $line
          REPLACEMENT_VALUE=$(echo "$line" | awk -F= '{print $2}')
          echo $line
          sed -i -e 's/{{'"$REPLACEMENT_VARIABLE"'}}/'"$REPLACEMENT_VALUE"'/g' "$FILE_PATH"
