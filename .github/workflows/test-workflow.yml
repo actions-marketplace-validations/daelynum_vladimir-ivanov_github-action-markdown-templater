@@ -12,7 +12,7 @@ jobs:
         template-file: './md/template.json'
         replacement-directory: './md'
         check-modified-files-only: 'no'
-        base-branch: 'master'
+        base-branch: 'main'
     - name: Commit and push if changed
       run: |
         git diff
