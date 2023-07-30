@@ -51,6 +51,7 @@ check_modified_files () {
    do
       if [ "${i##*.}" == "${FILE_EXTENSION#.}" ]; then
          FILE_PATH="${i}"
+         echo "Processing $FILE_PATH"    # <--- Add this line to display the file being processed
          replace_variables
       fi
    done
@@ -59,6 +60,9 @@ check_modified_files () {
 
 # Function to replace the template variables in a given file
 replace_variables () {
+
+   # Display the file being processed
+   echo "Processing $FILE_PATH"
 
    # For each line in the replacement directory, replace the corresponding variable in the file
    while IFS= read -r line
