@@ -26,7 +26,6 @@ BASE_BRANCH="$4"
 
 replace_pattern="{{\\([a-zA-Z0-9_]+\\)}}"
 
-
 # Display the variables
 echo -e "${BLUE}TEMPLATE_FILE: $1${NC}"
 echo -e "${BLUE}REPLACEMENT_DIRECTORY: $2${NC}"
