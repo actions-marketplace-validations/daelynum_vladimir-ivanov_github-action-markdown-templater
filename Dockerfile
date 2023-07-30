@@ -1,24 +1,15 @@
-# Use the official node.js image
-FROM node:16-alpine
+# Use Node.js LTS version on Alpine Linux as the base image
+FROM node:lts-alpine
 
-# Install bash and jq (for JSON processing)
-RUN apk add --no-cache bash jq
-
-# Create an app directory
-WORKDIR /usr/src/app
-
-# Install app dependencies
-COPY package*.json ./
-RUN npm install
-
-# Bundle your app
-COPY docker .
+# Install bash and git
+RUN apk add --no-cache bash>5.0.16-r0 git>2.26.0-r0
 
 # Install replace-in-file globally
 RUN npm install -g replace-in-file
 
-# Set permissions for entrypoint.sh
-RUN chmod +x entrypoint.sh
+# Copy the entrypoint script into the container and make it executable
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Execute the script
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+# Specify the entrypoint script as the main command to run when the container starts
+ENTRYPOINT ["/entrypoint.sh"]
