@@ -60,19 +60,13 @@ check_modified_files () {
 
 # Function to replace the template variables in a given file
 replace_variables () {
-
-   # Display the file being processed
-   echo "Processing $1"
-
-   # Read the replacement variables from the specified JSON file
+   # Read the replacement variables from the template file
    while IFS= read -r line
    do
-      REPLACEMENT_VARIABLE=$(echo "$line" | awk -F= '{print $1}')
-      echo $line
-      REPLACEMENT_VALUE=$(echo "$line" | awk -F= '{print $2}')
-      echo $line
+      REPLACEMENT_VARIABLE=$(echo "$line" | awk -F '{{|}}' '{print $2}')
+      REPLACEMENT_VALUE=$(echo "$line" | awk -F '{{|}}' '{print $3}')
       sed -i -e 's/{{'"$REPLACEMENT_VARIABLE"'}}/'"$REPLACEMENT_VALUE"'/g' "$1"
-   done < "$REPLACEMENT_DIRECTORY"
+   done < "$TEMPLATE_FILE"
 }
 
 # If we are only checking modified files, do so. Otherwise, replace variables in all .md files.
