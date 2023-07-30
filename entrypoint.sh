@@ -62,7 +62,7 @@ check_modified_files () {
 
 # Function to replace the template variables in a given file
 replace_variables () {
-  json_file="${replacement_directory}/variables.json"
+  json_file="${REPLACEMENT_DIRECTORY}/template.json"
   if [ ! -f "$json_file" ]; then
     echo -e "${RED}ERROR [✖] Can't find the JSON file: ${YELLOW}${json_file}${NC}"
     exit 2
