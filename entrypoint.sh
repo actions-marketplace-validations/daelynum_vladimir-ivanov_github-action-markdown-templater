@@ -24,6 +24,8 @@ CHECK_MODIFIED_FILES_ONLY="$3"
 # The base branch against which to compare for modified files
 BASE_BRANCH="$4"
 
+replace_pattern="{{([a-zA-Z0-9_]+)}}"
+
 # Display the variables
 echo -e "${BLUE}TEMPLATE_FILE: $1${NC}"
 echo -e "${BLUE}REPLACEMENT_DIRECTORY: $2${NC}"
@@ -60,12 +62,16 @@ check_modified_files () {
 
 # Function to replace the template variables in a given file
 replace_variables () {
+
+   # Display the file being processed
+   echo "Processing $1"
+
    # Read the replacement variables from the template file
    while IFS= read -r line
    do
-      REPLACEMENT_VARIABLE=$(echo "$line" | awk -F '{{|}}' '{print $2}')
+      REPLACEMENT_VARIABLE=$(echo "$line" | grep -oE "$replace_pattern" | sed -E 's/[{}]+//g')
       REPLACEMENT_VALUE=$(echo "$line" | awk -F '{{|}}' '{print $3}')
-      sed -i -e 's/{{'"$REPLACEMENT_VARIABLE"'}}/'"$REPLACEMENT_VALUE"'/g' "$1"
+      sed -i -e 's/{{$REPLACEMENT_VARIABLE}}/'"$REPLACEMENT_VALUE"'/g' "$1"
    done < "$TEMPLATE_FILE"
 }
 
