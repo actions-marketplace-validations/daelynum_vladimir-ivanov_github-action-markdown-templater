@@ -65,24 +65,21 @@ replace_variables () {
    echo "Processing $FILE_PATH"
 
    # For each line in the replacement directory, replace the corresponding variable in the file
-   or FILE_PATH in $(find "$REPLACEMENT_DIRECTORY" -type f); do
-     while IFS= read -r line
-     do
+#   while IFS= read -r line
+#   do
+#      REPLACEMENT_VARIABLE=$(echo "$line" | awk -F= '{print $1}')
+#      REPLACEMENT_VALUE=$(echo "$line" | awk -F= '{print $2}')
+#      sed -i -e 's/{{'"$REPLACEMENT_VARIABLE"'}}/'"$REPLACEMENT_VALUE"'/g' "$FILE_PATH"
+#   done < "$REPLACEMENT_DIRECTORY"
+#
+   for FILE_PATH in $(find "$REPLACEMENT_DIRECTORY" -type f); do
+    while IFS= read -r line
+    do
         REPLACEMENT_VARIABLE=$(echo "$line" | awk -F= '{print $1}')
         REPLACEMENT_VALUE=$(echo "$line" | awk -F= '{print $2}')
         sed -i -e 's/{{'"$REPLACEMENT_VARIABLE"'}}/'"$REPLACEMENT_VALUE"'/g' "$FILE_PATH"
-     done < "$REPLACEMENT_DIRECTORY"
-   done
-#   for FILE_PATH in $(find "$REPLACEMENT_DIRECTORY" -type f); do
-#    while IFS= read -r line
-#    do
-#        REPLACEMENT_VARIABLE=$(echo "$line" | awk -F= '{print $1}')
-#        REPLACEMENT_VALUE=$(echo "$line" | awk -F= '{print $2}')
-#        sed -i -e 's/{{'"$REPLACEMENT_VARIABLE"'}}/'"$REPLACEMENT_VALUE"'/g' "$FILE_PATH"
-#    done < "$FILE_PATH"
-#done
-
-
+    done < "$FILE_PATH"
+done
 }
 
 # If we are only checking modified files, do so. Otherwise, replace variables in all .md files.
