@@ -79,7 +79,7 @@ replace_variables () {
 #        REPLACEMENT_VALUE=$(echo "$line" | awk -F= '{print $2}')
 #        sed -i -e 's/{{'"$REPLACEMENT_VARIABLE"'}}/'"$REPLACEMENT_VALUE"'/g' "$FILE_PATH"
 #    done < "$FILE_PATH"
-done
+#done
 
 
 }
