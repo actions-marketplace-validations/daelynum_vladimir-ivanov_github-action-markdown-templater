@@ -70,6 +70,7 @@ replace_variables () {
 
   while IFS="=" read -r name value; do
     replace_pattern="{{${name}}}"
+    echo $name
     sed -i "s|$replace_pattern|${value}|g" "${TEMPLATE_FILE}"
   done < <(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" "${json_file}")
 }
