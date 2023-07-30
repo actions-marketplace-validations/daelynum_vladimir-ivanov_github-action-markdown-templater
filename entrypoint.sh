@@ -62,20 +62,17 @@ check_modified_files () {
 replace_variables () {
 
    # Display the file being processed
-   echo "Processing $FILE_PATH"
+   echo "Processing $1"
 
-   # Loop through the files in the REPLACEMENT_DIRECTORY
-   for replacement_file in $(find "$REPLACEMENT_DIRECTORY" -type f); do
-      # Read the replacement variables from the specified file
-      while IFS= read -r line
-      do
-         REPLACEMENT_VARIABLE=$(echo "$line" | awk -F= '{print $1}')
-         echo $line
-         REPLACEMENT_VALUE=$(echo "$line" | awk -F= '{print $2}')
-         echo $line
-         sed -i -e 's/{{'"$REPLACEMENT_VARIABLE"'}}/'"$REPLACEMENT_VALUE"'/g' "$FILE_PATH"
-      done < "$replacement_file"
-   done
+   # Read the replacement variables from the specified JSON file
+   while IFS= read -r line
+   do
+      REPLACEMENT_VARIABLE=$(echo "$line" | awk -F= '{print $1}')
+      echo $line
+      REPLACEMENT_VALUE=$(echo "$line" | awk -F= '{print $2}')
+      echo $line
+      sed -i -e 's/{{'"$REPLACEMENT_VARIABLE"'}}/'"$REPLACEMENT_VALUE"'/g' "$1"
+   done < "$REPLACEMENT_DIRECTORY"
 }
 
 # If we are only checking modified files, do so. Otherwise, replace variables in all .md files.
