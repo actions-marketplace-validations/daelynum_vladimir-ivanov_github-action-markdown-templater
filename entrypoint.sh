@@ -62,13 +62,16 @@ check_modified_files () {
 
 # Function to replace the template variables in a given file
 replace_variables () {
-   # Read the replacement variables from the template file
-   while IFS= read -r line
-   do
-      REPLACEMENT_VARIABLE=$(echo "$line" | grep -oE "$replace_pattern" | sed -E 's/[{}]+//g')
-      REPLACEMENT_VALUE=$(echo "$line" | awk -F '{{|}}' '{print $3}')
-      sed -i -e "s/{{$REPLACEMENT_VARIABLE}}/$REPLACEMENT_VALUE/g" "$1"
-   done < "$TEMPLATE_FILE"
+  json_file="${replacement_directory}/variables.json"
+  if [ ! -f "$json_file" ]; then
+    echo -e "${RED}ERROR [✖] Can't find the JSON file: ${YELLOW}${json_file}${NC}"
+    exit 2
+  fi
+
+  while IFS="=" read -r name value; do
+    replace_pattern="{{${name}}}"
+    sed -i "s|$replace_pattern|${value}|g" "${template_file}"
+  done < <(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" "${json_file}")
 }
 
 # If we are only checking modified files, do so. Otherwise, replace variables in all .md files.
