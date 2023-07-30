@@ -71,7 +71,6 @@ replace_variables () {
       echo $line
       sed -i -e 's/{{'"$REPLACEMENT_VARIABLE"'}}/'"$REPLACEMENT_VALUE"'/g' "$FILE_PATH"
    done < "$REPLACEMENT_DIRECTORY"
-done
 }
 
 # If we are only checking modified files, do so. Otherwise, replace variables in all .md files.
